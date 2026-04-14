@@ -1,0 +1,154 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Circuit Breakers Dashboard",
+    "tags": [
+      "circuit-breaker",
+      "resilience",
+      "observability"
+    ],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Circuit Breaker States",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "circuit_breaker_state",
+            "legendFormat": "{{name}}",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "mappings": [
+              {
+                "options": {
+                  "0": {
+                    "text": "CLOSED",
+                    "color": "green"
+                  },
+                  "1": {
+                    "text": "OPEN",
+                    "color": "red"
+                  },
+                  "2": {
+                    "text": "HALF-OPEN",
+                    "color": "yellow"
+                  }
+                },
+                "type": "value"
+              }
+            ]
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "id": 2,
+        "title": "Circuit Breaker Success/Error Rate",
+        "type": "bargauge",
+        "targets": [
+          {
+            "expr": "rate(circuit_breaker_successes_total[5m]) / (rate(circuit_breaker_successes_total[5m]) + rate(circuit_breaker_errors_total[5m])) * 100",
+            "legendFormat": "{{name}} Success Rate",
+            "refId": "A"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "percent"
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        }
+      },
+      {
+        "id": 3,
+        "title": "Circuit Breaker Execution Time",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(circuit_breaker_execution_duration_seconds_bucket[5m]))",
+            "legendFormat": "95th percentile",
+            "refId": "A"
+          },
+          {
+            "expr": "histogram_quantile(0.50, rate(circuit_breaker_execution_duration_seconds_bucket[5m]))",
+            "legendFormat": "50th percentile",
+            "refId": "B"
+          }
+        ],
+        "fieldConfig": {
+          "defaults": {
+            "unit": "seconds"
+          }
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 8
+        }
+      },
+      {
+        "id": 4,
+        "title": "Circuit Breaker Events (Last 1h)",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "increase(circuit_breaker_successes_total[1h])",
+            "legendFormat": "{{name}} - Successes",
+            "refId": "A"
+          },
+          {
+            "expr": "increase(circuit_breaker_errors_total[1h])",
+            "legendFormat": "{{name}} - Errors",
+            "refId": "B"
+          },
+          {
+            "expr": "increase(circuit_breaker_timeouts_total[1h])",
+            "legendFormat": "{{name}} - Timeouts",
+            "refId": "C"
+          },
+          {
+            "expr": "increase(circuit_breaker_fallbacks_total[1h])",
+            "legendFormat": "{{name}} - Fallbacks",
+            "refId": "D"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 16
+        }
+      }
+    ],
+    "time": {
+      "from": "now-1h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "templating": {
+      "list": []
+    },
+    "annotations": {
+      "list": []
+    },
+    "refresh": "30s",
+    "schemaVersion": 27,
+    "version": 0,
+    "links": []
+  }
+}

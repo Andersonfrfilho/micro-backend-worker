@@ -1,0 +1,41 @@
+global:
+  smtp_smarthost: 'localhost:587'
+  smtp_from: 'alertmanager@example.com'
+  smtp_auth_username: 'alertmanager'
+  smtp_auth_password: 'password'
+
+route:
+  group_by: ['alertname']
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 1h
+  receiver: 'email'
+  routes:
+    - match:
+        alertname: HighErrorRate
+      receiver: 'slack'
+    - match:
+        alertname: RabbitMQConnectionLost
+      receiver: 'slack-critical'
+
+receivers:
+  - name: 'email'
+    email_configs:
+      - to: 'admin@example.com'
+        send_resolved: true
+
+  - name: 'slack'
+    slack_configs:
+      - api_url: 'https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK'
+        channel: '#alerts'
+        send_resolved: true
+        title: '{{ .GroupLabels.alertname }}'
+        text: '{{ .CommonAnnotations.summary }}'
+
+  - name: 'slack-critical'
+    slack_configs:
+      - api_url: 'https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK'
+        channel: '#critical-alerts'
+        send_resolved: true
+        title: '🚨 CRITICAL: {{ .GroupLabels.alertname }}'
+        text: '{{ .CommonAnnotations.summary }}'

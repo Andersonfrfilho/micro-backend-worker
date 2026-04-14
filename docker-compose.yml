@@ -1,0 +1,214 @@
+services:
+  worker:
+    depends_on:
+      database_postgres:
+        condition: service_healthy
+      database_mongo:
+        condition: service_started
+      cache_redis:
+        condition: service_started
+      queue_rabbitmq:
+        condition: service_started
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: backend_worker
+    environment:
+      - NODE_ENV=development
+    env_file:
+      - .env
+    volumes:
+      - ./src:/app/src
+      - ./dist:/app/dist
+      - ./logs:/app/logs
+    ports:
+      - '${PORT}:3005'
+    stdin_open: true
+    tty: true
+
+  ### DATABASE SERVICE
+  database_postgres:
+    image: postgres:18
+    container_name: backend_database_postgres
+    environment:
+      - POSTGRES_USER=${DATABASE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${DATABASE_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${DATABASE_POSTGRES_NAME}
+    ports:
+      - '${DATABASE_POSTGRES_PORT}:5432'
+    volumes:
+      - database_postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${DATABASE_POSTGRES_USER}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  database_mongo:
+    image: mongo:7
+    container_name: backend_database_mongo
+    restart: always
+    ports:
+      - '${DATABASE_MONGO_PORT}:27017'
+    volumes:
+      - database_mongo_data:/data/db
+      - database_mongo_config:/data/configdb
+
+  cache_redis:
+    image: redis:7-alpine
+    container_name: backend_cache_redis
+    ports:
+      - '${REDIS_PORT}:6379'
+    volumes:
+      - cache_redis_data:/data
+    command: redis-server --appendonly yes
+
+  ### MONITORING SERVICES
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: backend_prometheus
+    ports:
+      - '9090:9090'
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    depends_on:
+      - worker
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: backend_alertmanager
+    ports:
+      - '9093:9093'
+    volumes:
+      - ./monitoring/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
+    depends_on:
+      - prometheus
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: backend_grafana
+    ports:
+      - '3000:3000'
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./monitoring/grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      - prometheus
+      - loki
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: backend_node_exporter
+    ports:
+      - '9100:9100'
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+
+  ### TRACING SERVICES
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: backend_jaeger
+    ports:
+      - '16686:16686' # Jaeger UI
+      - '14268:14268' # Accept jaeger.thrift over HTTP
+      - '14250:14250' # Accept jaeger.thrift over gRPC
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+      - COLLECTOR_ZIPKIN_HOST_PORT=:9411
+    volumes:
+      - jaeger_data:/tmp
+    depends_on:
+      - worker
+
+  ### LOGGING SERVICES
+  loki:
+    image: grafana/loki:latest
+    container_name: backend_loki
+    ports:
+      - '3100:3100'
+    volumes:
+      - ./monitoring/loki-config.yml:/etc/loki/local-config.yaml
+      - loki_data:/loki
+    command: -config.file=/etc/loki/local-config.yaml
+    depends_on:
+      - worker
+
+  promtail:
+    image: grafana/promtail:latest
+    container_name: backend_promtail
+    volumes:
+      - ./monitoring/promtail-config.yml:/etc/promtail/config.yml
+      - /var/log:/var/log
+      - ./logs:/app/logs
+    command: -config.file=/etc/promtail/config.yml
+    depends_on:
+      - loki
+
+  ## SONAR_QUBE SERVICES (Optional for worker)
+  sonarqube:
+    image: sonarqube:community
+    container_name: ${PROJECT_NAME}_sonarqube
+    depends_on:
+      - sonar-db
+    environment:
+      SONAR_JDBC_URL: jdbc:postgresql://sonar-db:5432/sonar
+      SONAR_JDBC_USERNAME: sonar
+      SONAR_JDBC_PASSWORD: sonar
+    ports:
+      - '9001:9000'
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
+      - sonarqube_temp:/opt/sonarqube/temp
+
+  sonar-db:
+    image: postgres:13
+    container_name: ${PROJECT_NAME}_database_sonarqube
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar
+      POSTGRES_DB: sonar
+    volumes:
+      - sonar_database:/var/lib/postgresql
+      - sonar_database_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:
+  sonarqube_temp:
+  sonar_database:
+  sonar_database_postgres_data:
+  database_postgres_data:
+  database_mongo_data:
+  database_mongo_config:
+  queue_rabbitmq_data:
+  prometheus_data:
+  grafana_data:
+  jaeger_data:
+  loki_data:
+  cache_redis_data:

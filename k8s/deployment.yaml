@@ -1,0 +1,93 @@
+# Kubernetes Manifests
+
+## Deployment
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-worker
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: backend-worker
+  template:
+    metadata:
+      labels:
+        app: backend-worker
+    spec:
+      containers:
+      - name: worker
+        image: backend-worker:latest
+        envFrom:
+        - configMapRef:
+            name: backend-worker-config
+        - secretRef:
+            name: backend-worker-secrets
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3005
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 3005
+          initialDelaySeconds: 5
+          periodSeconds: 5
+```
+
+## ConfigMap
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-worker-config
+data:
+  NODE_ENV: "production"
+  PORT: "3005"
+  # ... outras configs
+```
+
+## Secret
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: backend-worker-secrets
+type: Opaque
+data:
+  DATABASE_PASSWORD: <base64-encoded>
+  RABBITMQ_PASSWORD: <base64-encoded>
+  # ... outros secrets
+```
+
+## HPA (Horizontal Pod Autoscaler)
+```yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: backend-worker-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: backend-worker
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+```

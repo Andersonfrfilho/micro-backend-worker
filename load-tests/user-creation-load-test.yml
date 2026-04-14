@@ -1,0 +1,72 @@
+{
+  'config':
+    {
+      'target': 'http://localhost:3000',
+      'phases':
+        [
+          { 'name': 'Ramp up', 'duration': 60, 'arrivalRate': 1, 'rampTo': 10 },
+          { 'name': 'Sustained load', 'duration': 300, 'arrivalRate': 10 },
+          { 'name': 'Spike test', 'duration': 60, 'arrivalRate': 50 },
+          { 'name': 'Recovery', 'duration': 120, 'arrivalRate': 5 },
+        ],
+      'defaults': { 'headers': { 'Content-Type': 'application/json' } },
+      'ensure': { 'p99': 1000, 'maxErrorRate': 1 },
+    },
+  'scenarios':
+    [
+      {
+        'name': 'Create User - Normal Load',
+        'weight': 80,
+        'flow':
+          [
+            {
+              'post':
+                {
+                  'url': '/users',
+                  'json':
+                    {
+                      'name': '{{ $randomString() }}',
+                      'email': '{{ $randomString() }}@test.com',
+                      'phone': '+551199999{{ $randomInt(1000, 9999) }}',
+                      'address':
+                        {
+                          'street': 'Rua {{ $randomString() }}',
+                          'city': 'São Paulo',
+                          'state': 'SP',
+                          'zipCode': '01234-{{ $randomInt(100, 999) }}',
+                        },
+                    },
+                  'expect': [{ 'statusCode': 201 }, { 'hasProperty': 'data.id' }],
+                },
+            },
+          ],
+      },
+      {
+        'name': 'Create User - With Warnings',
+        'weight': 20,
+        'flow':
+          [
+            {
+              'post':
+                {
+                  'url': '/users',
+                  'json':
+                    {
+                      'name': 'Test User {{ $randomInt(1, 1000) }}',
+                      'email': 'test{{ $randomInt(1, 1000) }}@example.com',
+                      'phone': '+551198888{{ $randomInt(1000, 9999) }}',
+                      'address':
+                        {
+                          'street': 'Avenida Teste {{ $randomInt(1, 100) }}',
+                          'city': 'Rio de Janeiro',
+                          'state': 'RJ',
+                          'zipCode': '22222-{{ $randomInt(100, 999) }}',
+                        },
+                    },
+                  'expect': [{ 'statusCode': 201 }, { 'hasProperty': 'warnings' }],
+                },
+            },
+          ],
+      },
+    ],
+}
