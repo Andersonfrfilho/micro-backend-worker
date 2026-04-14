@@ -153,14 +153,14 @@
 
 | #   | Arquivo Atual                                      | Novo Nome                                                 | Módulo | Prioridade          |
 | --- | -------------------------------------------------- | --------------------------------------------------------- | ------ | ------------------- |
-| 1   | `error/domain/AppError.ts`                         | `error/domain/app.error.ts`                               | ERROR  | 🔵 Média            |
+| 1   | `error/AppError.ts`                                | `error/app.error.ts`                                      | ERROR  | 🔵 Média            |
 | 2   | `health/application/application.module.ts`         | `health/application/health-application.module.ts`         | HEALTH | 🔵 Média            |
 | 3   | `health/application/use-cases/use-cases.module.ts` | `health/application/use-cases/health-use-cases.module.ts` | HEALTH | 🔵 Média            |
 | 4   | `auth/auth.controller.ts` (raiz)                   | ❌ DELETAR                                                | AUTH   | 🔴 Alta (duplicado) |
-| 5   | `auth/domain/exceptions.ts`                        | `auth/domain/auth.exceptions.ts`                          | AUTH   | 🔵 Média            |
+| 5   | `auth/exceptions.ts`                               | `auth/auth.exceptions.ts`                                 | AUTH   | 🔵 Média            |
 | 6   | `auth/shared/dtos/LoginSessionRequest.dto.ts`      | `auth/shared/dtos/login-session-request.dto.ts`           | AUTH   | 🔵 Média            |
 | 7   | `auth/shared/dtos/LoginSessionResponse.dto.ts`     | `auth/shared/dtos/login-session-response.dto.ts`          | AUTH   | 🔵 Média            |
-| 8   | `shared/domain/entities/userTypes.entity.ts`       | `shared/domain/entities/user-types.entity.ts`             | SHARED | 🔵 Média            |
+| 8   | `shared/entities/userTypes.entity.ts`              | `shared/entities/user-types.entity.ts`                    | SHARED | 🔵 Média            |
 
 ---
 

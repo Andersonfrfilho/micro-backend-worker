@@ -1,7 +1,8 @@
-import { Injectable, NestInterceptor, ExecutionContext, CallHandler, Logger } from '@nestjs/common';
-import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Injectable, NestInterceptor, ExecutionContext, CallHandler, Inject } from '@nestjs/common';
+import { LOGGER_PROVIDER } from '@adatechnology/logger';
+import { Observable } from 'rxjs';
 
+import type { LogProviderInterface } from '@app/modules/shared/domain';
 import { CircuitBreakerService } from '../application/circuit-breaker.service';
 
 export interface CircuitBreakerOptions {
@@ -14,9 +15,10 @@ export interface CircuitBreakerOptions {
 
 @Injectable()
 export class CircuitBreakerInterceptor implements NestInterceptor {
-  private readonly logger = new Logger(CircuitBreakerInterceptor.name);
-
-  constructor(private readonly circuitBreakerService: CircuitBreakerService) {}
+  constructor(
+    private readonly circuitBreakerService: CircuitBreakerService,
+    @Inject(LOGGER_PROVIDER) private readonly logger: LogProviderInterface,
+  ) {}
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const handler = context.getHandler();
@@ -51,7 +53,7 @@ export class CircuitBreakerInterceptor implements NestInterceptor {
           subscriber.next(result);
           subscriber.complete();
         } catch (error) {
-          this.logger.error(`Circuit breaker '${name}' failed:`, error);
+          this.logger.error({ message: `Circuit breaker '${name}' failed`, context: 'CircuitBreakerInterceptor', params: { error } });
           subscriber.error(error);
         }
       };

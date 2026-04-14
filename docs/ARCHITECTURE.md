@@ -11,7 +11,7 @@ UserController (infrastructure/)
               ↓
               └→ UserRepository (infrastructure/repositories/)
                    ↓
-                   └→ User Entity (shared/domain/entities/)
+                   └→ User Entity (shared/entities/)
 ```
 
 ## Estrutura por Camada
@@ -84,7 +84,7 @@ CreateUserUseCase
 
 ### 5. Entity (Domain Layer)
 
-**Arquivo:** `shared/domain/entities/user.entity.ts`
+**Arquivo:** `shared/entities/user.entity.ts`
 
 - Modelo de dados
 - Relacionamentos

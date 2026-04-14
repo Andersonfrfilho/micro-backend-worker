@@ -1,22 +1,21 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { LOGGER_PROVIDER } from '@adatechnology/logger';
 
+import type { LogProviderInterface } from '@app/modules/shared/domain';
 import { CircuitBreakerService } from '../../circuit-breaker/application/circuit-breaker.service';
 import { CircuitBreaker } from '../../circuit-breaker/domain/circuit-breaker.decorator';
 
 @Injectable()
 export class ExternalApiService {
-  private readonly logger = new Logger(ExternalApiService.name);
+  constructor(
+    private readonly circuitBreakerService: CircuitBreakerService,
+    @Inject(LOGGER_PROVIDER) private readonly logger: LogProviderInterface,
+  ) {}
 
-  constructor(private readonly circuitBreakerService: CircuitBreakerService) {}
-
-  /**
-   * Example of using circuit breaker with manual execution
-   */
   async callExternalApiWithCircuitBreaker(apiUrl: string, data: any): Promise<any> {
     return this.circuitBreakerService.execute(
       'external-api',
       async () => {
-        // Simulate external API call
         const response = await fetch(apiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -31,27 +30,21 @@ export class ExternalApiService {
       },
       [apiUrl, data],
       {
-        timeout: 3000, // 3 seconds timeout
+        timeout: 3000,
         errorThresholdPercentage: 50,
-        resetTimeout: 10000, // 10 seconds reset
+        resetTimeout: 10000,
       },
-      // Fallback function
       async () => {
-        this.logger.warn('External API circuit breaker fallback triggered');
+        this.logger.warn({ message: 'External API circuit breaker fallback triggered', context: 'ExternalApiService' });
         return { status: 'fallback', message: 'Service temporarily unavailable' };
       },
     );
   }
 
-  /**
-   * Example of using circuit breaker with decorator
-   */
   @CircuitBreaker('payment-service', 5000)
   async processPayment(paymentData: any): Promise<any> {
-    // Simulate payment processing
-    this.logger.log('Processing payment...');
+    this.logger.info({ message: 'Processing payment', context: 'ExternalApiService' });
 
-    // Simulate random failure for demonstration
     if (Math.random() < 0.3) {
       throw new Error('Payment service unavailable');
     }
@@ -63,15 +56,10 @@ export class ExternalApiService {
     };
   }
 
-  /**
-   * Example of using circuit breaker for database operations
-   */
   @CircuitBreaker('database-sync', 10000)
   async syncWithExternalDatabase(userData: any): Promise<any> {
-    // Simulate database sync operation
-    this.logger.log('Syncing with external database...');
+    this.logger.info({ message: 'Syncing with external database', context: 'ExternalApiService' });
 
-    // Simulate potential failure
     if (Math.random() < 0.2) {
       throw new Error('Database sync failed');
     }
@@ -83,9 +71,6 @@ export class ExternalApiService {
     };
   }
 
-  /**
-   * Get circuit breaker statistics
-   */
   getCircuitBreakerStats() {
     return {
       'external-api': this.circuitBreakerService.getStats('external-api'),

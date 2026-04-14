@@ -186,6 +186,14 @@ down: setup-env
 force-remove: setup-env
 	docker rm -f $(shell docker ps -a -q --filter "name=$(SERVICE_NAME)")
 
+clean: setup-env
+	@echo "🧹 Limpando containers, redes e volumes do projeto $(PROJECT_NAME)..."
+	docker-compose -p $(PROJECT_NAME) -f $(COMPOSE_FILE) down -v --remove-orphans
+	@echo "🧽 Removendo artifacts locais (./dist)"
+	- rm -rf ./dist
+	@echo "🗑 Removendo imagens órfãs"
+	- docker image prune -f
+
 clean-images: setup-env
 	docker rmi -f $(shell docker images --filter=reference="$(PROJECT_NAME)*" -q)
 
@@ -286,4 +294,4 @@ setup: setup-env
 	docker-compose -p $(PROJECT_NAME) -f $(COMPOSE_FILE) up -d --remove-orphans
 	@echo "✅ Setup completo! Projeto pronto para usar."
 
-.PHONY: all rebuild-app setup-env clean-all clean-images force-remove down stop app sonar-up sonar-down sonar-scan clean-safe database_postgres database_mongo queue_rabbitmq setup setup-e2e-databases test-e2e-ready test-e2e-docker monitoring monitoring-down monitoring-stop prometheus prometheus-down grafana grafana-down alertmanager alertmanager-down tracing tracing-down tracing-stop jaeger jaeger-down logging logging-down logging-stop loki loki-down promtail promtail-down observability observability-down observability-stop logs-monitoring logs-tracing logs-logging status health-check circuit-breaker-stats circuit-breaker-test-payment circuit-breaker-test-external-api circuit-breaker-reset monitoring monitoring-down monitoring-stop prometheus prometheus-down grafana grafana-down alertmanager alertmanager-down tracing tracing-down tracing-stop jaeger jaeger-down logging logging-down logging-stop loki loki-down promtail promtail-down observability observability-down observability-stop 
+.PHONY: all rebuild-app setup-env clean clean-all clean-images force-remove down stop app sonar-up sonar-down sonar-scan clean-safe database_postgres queue_rabbitmq cache_redis setup setup-e2e-databases test-e2e-ready test-e2e-docker migrate migrate-revert migrate-show docker-migrate docker-migrate-revert docker-migrate-show monitoring monitoring-down monitoring-stop prometheus prometheus-down grafana grafana-down alertmanager alertmanager-down tracing tracing-down tracing-stop jaeger jaeger-down logging logging-down logging-stop loki loki-down promtail promtail-down observability observability-down observability-stop logs-monitoring logs-tracing logs-logging status health-check circuit-breaker-stats circuit-breaker-test-payment circuit-breaker-test-external-api circuit-breaker-reset

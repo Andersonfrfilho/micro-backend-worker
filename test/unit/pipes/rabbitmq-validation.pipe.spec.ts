@@ -1,6 +1,6 @@
 import { BadRequestException } from '@nestjs/common';
-import { RabbitMQValidationPipe } from '../../../src/modules/shared/infrastructure/providers/queue/pipes/rabbitmq-validation.pipe';
-import { EmailNotificationMessage } from '../../../src/modules/shared/infrastructure/providers/queue/consumer/dto/consumer-messages.dto';
+import { RabbitMQValidationPipe } from '../../../src/modules/shared/providers/queue/pipes/rabbitmq-validation.pipe';
+import { EmailNotificationMessage } from '../../../src/modules/shared/providers/queue/consumer/dto/consumer-messages.dto';
 
 describe('RabbitMQValidationPipe', () => {
   let pipe: RabbitMQValidationPipe;

@@ -1,6 +1,5 @@
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { AsyncApiModule, AsyncApiDocumentBuilder } from 'nestjs-asyncapi';
 import { register as tsConfigPathsRegister } from 'tsconfig-paths';
 
@@ -16,8 +15,6 @@ tsConfigPathsRegister({
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
-  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
 
   const configService = app.get(ConfigService);
   const nodeEnv = configService.get('NODE_ENV') || 'development';

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Logger } from '@nestjs/common';
+import { Controller, Get, Post, Body } from '@nestjs/common';
 
 import { CircuitBreakerService } from '../application/circuit-breaker.service';
 import { ExternalApiService } from '../application/external-api.service';
@@ -6,8 +6,6 @@ import { CircuitBreakerMetricsService } from './circuit-breaker.metrics.service'
 
 @Controller('circuit-breaker')
 export class CircuitBreakerController {
-  private readonly logger = new Logger(CircuitBreakerController.name);
-
   constructor(
     private readonly externalApiService: ExternalApiService,
     private readonly circuitBreakerService: CircuitBreakerService,

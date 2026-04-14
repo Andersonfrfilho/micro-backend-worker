@@ -1,7 +1,9 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
-import * as CircuitBreaker from 'opossum';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { LOGGER_PROVIDER } from '@adatechnology/logger';
+import CircuitBreaker from 'opossum';
 
-import { CircuitBreakerMetricsService } from '../infrastructure/circuit-breaker.metrics.service';
+import type { LogProviderInterface } from '@app/modules/shared';
+import { CircuitBreakerMetricsService } from '../circuit-breaker.metrics.service';
 
 export interface CircuitBreakerOptions {
   timeout?: number; // milliseconds
@@ -23,19 +25,24 @@ export interface CircuitBreakerStats {
 
 @Injectable()
 export class CircuitBreakerService implements OnModuleInit {
-  private readonly logger = new Logger(CircuitBreakerService.name);
   private readonly circuitBreakers = new Map<string, CircuitBreaker>();
 
   private readonly defaultOptions: CircuitBreakerOptions = {
-    timeout: 5000, // 5 seconds
-    errorThresholdPercentage: 50, // 50% error rate
-    resetTimeout: 30000, // 30 seconds
+    timeout: 5000,
+    errorThresholdPercentage: 50,
+    resetTimeout: 30000,
   };
 
-  constructor(private readonly metricsService: CircuitBreakerMetricsService) {}
+  constructor(
+    private readonly metricsService: CircuitBreakerMetricsService,
+    @Inject(LOGGER_PROVIDER) private readonly logger: LogProviderInterface,
+  ) {}
 
   onModuleInit() {
-    this.logger.log('Circuit Breaker Service initialized');
+    this.logger.info({
+      message: 'Circuit Breaker Service initialized',
+      context: 'CircuitBreakerService',
+    });
   }
 
   /**
@@ -56,17 +63,26 @@ export class CircuitBreakerService implements OnModuleInit {
 
     // Event listeners for monitoring
     breaker.on('open', () => {
-      this.logger.warn(`Circuit breaker '${name}' opened`);
+      this.logger.warn({
+        message: `Circuit breaker '${name}' opened`,
+        context: 'CircuitBreakerService',
+      });
       this.metricsService.updateStateMetrics(name, 'open');
     });
 
     breaker.on('close', () => {
-      this.logger.log(`Circuit breaker '${name}' closed`);
+      this.logger.info({
+        message: `Circuit breaker '${name}' closed`,
+        context: 'CircuitBreakerService',
+      });
       this.metricsService.updateStateMetrics(name, 'closed');
     });
 
     breaker.on('halfOpen', () => {
-      this.logger.log(`Circuit breaker '${name}' half-opened`);
+      this.logger.info({
+        message: `Circuit breaker '${name}' half-opened`,
+        context: 'CircuitBreakerService',
+      });
       this.metricsService.updateStateMetrics(name, 'halfOpen');
     });
 
@@ -79,11 +95,11 @@ export class CircuitBreakerService implements OnModuleInit {
     });
 
     breaker.on('timeout', (runTime) => {
-      this.metricsService.recordTimeout(name, runTime);
+      this.metricsService.recordTimeout(name, runTime as unknown as number);
     });
 
     breaker.on('fallback', (result, runTime) => {
-      this.metricsService.recordFallback(name, runTime);
+      this.metricsService.recordFallback(name, runTime as unknown as number);
     });
 
     this.circuitBreakers.set(name, breaker);
@@ -111,9 +127,13 @@ export class CircuitBreakerService implements OnModuleInit {
     }
 
     try {
-      return await breaker.fire(...args);
+      return (await breaker.fire(...args)) as T;
     } catch (error) {
-      this.logger.error(`Circuit breaker '${name}' execution failed:`, error);
+      this.logger.error({
+        message: `Circuit breaker '${name}' execution failed`,
+        context: 'CircuitBreakerService',
+        params: { error },
+      });
       throw error;
     }
   }
@@ -168,7 +188,10 @@ export class CircuitBreakerService implements OnModuleInit {
     const breaker = this.circuitBreakers.get(name);
     if (breaker) {
       breaker.open();
-      this.logger.warn(`Circuit breaker '${name}' manually opened`);
+      this.logger.warn({
+        message: `Circuit breaker '${name}' manually opened`,
+        context: 'CircuitBreakerService',
+      });
       return true;
     }
     return false;
@@ -181,7 +204,10 @@ export class CircuitBreakerService implements OnModuleInit {
     const breaker = this.circuitBreakers.get(name);
     if (breaker) {
       breaker.close();
-      this.logger.log(`Circuit breaker '${name}' manually closed`);
+      this.logger.info({
+        message: `Circuit breaker '${name}' manually closed`,
+        context: 'CircuitBreakerService',
+      });
       return true;
     }
     return false;
@@ -192,8 +218,12 @@ export class CircuitBreakerService implements OnModuleInit {
    */
   resetAll(): void {
     for (const [name, breaker] of this.circuitBreakers) {
-      breaker.reset();
-      this.logger.log(`Circuit breaker '${name}' reset`);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (breaker as any).reset();
+      this.logger.info({
+        message: `Circuit breaker '${name}' reset`,
+        context: 'CircuitBreakerService',
+      });
     }
   }
 

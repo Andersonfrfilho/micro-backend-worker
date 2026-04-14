@@ -31,7 +31,6 @@ COPY --from=builder /app/node_modules ./node_modules
 # Copia apenas arquivos necessários
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/src ./src
-COPY --from=builder /app/scripts ./scripts
 COPY --from=builder /app/package*.json ./
 
 # Copia apenas os configs necessários para dev

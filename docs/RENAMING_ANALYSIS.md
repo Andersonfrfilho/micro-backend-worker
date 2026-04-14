@@ -10,9 +10,9 @@ Foram identificadas **8 mudanças obrigatórias** em toda a estrutura do projeto
 
 ### 1. **ERROR Module** (1 mudança)
 
-| Arquivo Atual                          | Novo Nome                               | Motivo     |
-| -------------------------------------- | --------------------------------------- | ---------- |
-| `src/modules/error/domain/AppError.ts` | `src/modules/error/domain/app.error.ts` | kebab-case |
+| Arquivo Atual                   | Novo Nome                        | Motivo     |
+| ------------------------------- | -------------------------------- | ---------- |
+| `src/modules/error/AppError.ts` | `src/modules/error/app.error.ts` | kebab-case |
 
 **Status:** ❌ Não feito
 
@@ -34,7 +34,7 @@ Foram identificadas **8 mudanças obrigatórias** em toda a estrutura do projeto
 | Arquivo Atual                                              | Novo Nome                                                    | Motivo                                |
 | ---------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------- |
 | `src/modules/auth/auth.controller.ts` (raiz)               | ❌ DELETAR                                                   | Duplicado - existe em infrastructure/ |
-| `src/modules/auth/domain/exceptions.ts`                    | `src/modules/auth/domain/auth.exceptions.ts`                 | Prefixo módulo para clarity           |
+| `src/modules/auth/exceptions.ts`                           | `src/modules/auth/auth.exceptions.ts`                        | Prefixo módulo para clarity           |
 | `src/modules/auth/shared/dtos/LoginSessionRequest.dto.ts`  | `src/modules/auth/shared/dtos/login-session-request.dto.ts`  | kebab-case                            |
 | `src/modules/auth/shared/dtos/LoginSessionResponse.dto.ts` | `src/modules/auth/shared/dtos/login-session-response.dto.ts` | kebab-case                            |
 
@@ -44,9 +44,9 @@ Foram identificadas **8 mudanças obrigatórias** em toda a estrutura do projeto
 
 ### 4. **SHARED Module** (1 mudança)
 
-| Arquivo Atual                                            | Novo Nome                                                 | Motivo     |
-| -------------------------------------------------------- | --------------------------------------------------------- | ---------- |
-| `src/modules/shared/domain/entities/userTypes.entity.ts` | `src/modules/shared/domain/entities/user-types.entity.ts` | kebab-case |
+| Arquivo Atual                                     | Novo Nome                                          | Motivo     |
+| ------------------------------------------------- | -------------------------------------------------- | ---------- |
+| `src/modules/shared/entities/userTypes.entity.ts` | `src/modules/shared/entities/user-types.entity.ts` | kebab-case |
 
 **Status:** ✅ JÁ FEITO
 

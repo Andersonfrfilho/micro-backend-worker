@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { PHONE_REPOSITORY_PROVIDE } from '@modules/phone/infrastructure/phone.token';
-import { PhoneRepository } from '@modules/phone/infrastructure/repositories/phone.repository';
-import { Phone } from '@modules/shared/domain/entities/phone.entity';
+import { PHONE_REPOSITORY_PROVIDE } from '@modules/phone/phone.token';
+import { PhoneRepository } from '@modules/phone/repositories/phone.repository';
+import { Phone } from '@modules/shared/entities/phone.entity';
 
-import { CONNECTIONS_NAMES } from '../shared/infrastructure/providers/database/database.constant';
+import { CONNECTIONS_NAMES } from '../shared/providers/database/database.constant';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Phone], CONNECTIONS_NAMES.POSTGRES)],

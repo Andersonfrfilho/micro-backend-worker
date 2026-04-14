@@ -211,7 +211,7 @@ Renomeações executadas:
 **Padrão Final Adotado: OPÇÃO A (SEM PREFIXO)**
 
 - Arquivos em `/infrastructure` não têm prefixo "infrastructure"
-- Interfaces em `/domain` têm sufixo `.interface.ts`
+- Interfaces em ``têm sufixo`.interface.ts`
 - Locais de armazenagem deixam explícita a camada
 
 ---
@@ -220,11 +220,11 @@ Renomeações executadas:
 
 ```typescript
 // ✅ CORRETO - usar @modules alias
-import { User } from '@modules/shared/domain/entities/user.entity';
-import { UserRepositoryInterface } from '@modules/user/domain/repositories/user.repository.interface';
+import { User } from '@modules/shared/entities/user.entity';
+import { UserRepositoryInterface } from '@modules/user/repositories/user.repository.interface';
 
 // ❌ ERRADO - não usar caminhos relativos
-import { User } from '../../../shared/domain/entities/user.entity';
+import { User } from '../../../shared/entities/user.entity';
 ```
 
 ---

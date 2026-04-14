@@ -1,20 +1,17 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { UserAddress } from '@modules/shared/domain/entities/user-address.entity';
-import { User } from '@modules/shared/domain/entities/user.entity';
-import { UserAddressRepository } from '@modules/shared/infrastructure/repositories/user-address.repository';
-import { UserRepository } from '@modules/shared/infrastructure/repositories/user.repository';
-import { USER_ADDRESS_REPOSITORY_PROVIDE } from '@modules/shared/infrastructure/user-address.token';
-import {
-  USER_CREATE_USE_CASE_PROVIDE,
-  USER_REPOSITORY_PROVIDE,
-} from '@modules/shared/infrastructure/user.token';
+import { UserAddress } from '@modules/shared/entities/user-address.entity';
+import { User } from '@modules/shared/entities/user.entity';
+import { UserAddressRepository } from '@modules/shared/repositories/user-address.repository';
+import { UserRepository } from '@modules/shared/repositories/user.repository';
+import { USER_ADDRESS_REPOSITORY_PROVIDE } from '@modules/shared/user-address.token';
+import { USER_CREATE_USE_CASE_PROVIDE, USER_REPOSITORY_PROVIDE } from '@modules/shared/user.token';
 import { SharedModule } from '@modules/shared/shared.module';
 
 import { AddressModule } from '../address/address.module';
 import { PhoneModule } from '../phone/phone.module';
-import { CONNECTIONS_NAMES } from '../shared/infrastructure/providers/database/database.constant';
+import { CONNECTIONS_NAMES } from '../shared/providers/database/database.constant';
 
 import { UserApplicationCreateUseCase } from './application/use-cases/create-user.use-case';
 

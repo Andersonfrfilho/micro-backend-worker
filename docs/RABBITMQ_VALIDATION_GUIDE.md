@@ -69,7 +69,7 @@ export class EmailNotificationMessage {
 
 ```typescript
 import { UsePipes } from '@nestjs/common';
-import { QUEUE_NAMES, EXCHANGE_NAMES, ROUTING_KEYS } from '@modules/shared/domain/constants';
+import { QUEUE_NAMES, EXCHANGE_NAMES, ROUTING_KEYS } from '@modules/shared/constants';
 import { RabbitMQValidationPipe } from '../../pipes/rabbitmq-validation.pipe';
 
 @Controller()

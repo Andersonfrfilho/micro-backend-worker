@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { ADDRESS_REPOSITORY_PROVIDE } from '@modules/address/infrastructure/address.token';
-import { AddressRepository } from '@modules/address/infrastructure/repositories/address.repository';
-import { Address } from '@modules/shared/domain/entities/address.entity';
+import { ADDRESS_REPOSITORY_PROVIDE } from '@modules/address/address.token';
+import { AddressRepository } from '@modules/address/repositories/address.repository';
+import { Address } from '@modules/shared/entities/address.entity';
 
-import { CONNECTIONS_NAMES } from '../shared/infrastructure/providers/database/database.constant';
+import { CONNECTIONS_NAMES } from '../shared/providers/database/database.constant';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Address], CONNECTIONS_NAMES.POSTGRES)],
