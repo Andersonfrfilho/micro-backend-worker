@@ -1,9 +1,10 @@
-import { Injectable, NestInterceptor, ExecutionContext, CallHandler, Inject } from '@nestjs/common';
 import { LOGGER_PROVIDER } from '@adatechnology/logger';
+import { Injectable, NestInterceptor, ExecutionContext, CallHandler, Inject } from '@nestjs/common';
 import { Observable } from 'rxjs';
 
-import type { LogProviderInterface } from '@app/modules/shared/domain';
-import { CircuitBreakerService } from '../application/circuit-breaker.service';
+import type { LogProviderInterface } from '@app/modules/shared';
+
+import { CircuitBreakerService } from './circuit-breaker.service';
 
 export interface CircuitBreakerOptions {
   name: string;
@@ -53,7 +54,11 @@ export class CircuitBreakerInterceptor implements NestInterceptor {
           subscriber.next(result);
           subscriber.complete();
         } catch (error) {
-          this.logger.error({ message: `Circuit breaker '${name}' failed`, context: 'CircuitBreakerInterceptor', params: { error } });
+          this.logger.error({
+            message: `Circuit breaker '${name}' failed`,
+            context: 'CircuitBreakerInterceptor',
+            params: { error },
+          });
           subscriber.error(error);
         }
       };

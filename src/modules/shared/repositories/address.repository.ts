@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 
-import { Address } from '../../domain/entities/address.entity';
-import { IAddressRepository } from '../../domain/repositories/address.repository.interface';
+import { Address } from '../entities/address.entity';
+
+import { IAddressRepository } from './address.repository.interface';
 
 @Injectable()
 export class AddressRepository implements IAddressRepository {

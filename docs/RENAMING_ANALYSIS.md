@@ -20,10 +20,10 @@ Foram identificadas **8 mudanças obrigatórias** em toda a estrutura do projeto
 
 ### 2. **HEALTH Module** (2 mudanças)
 
-| Arquivo Atual                                                  | Novo Nome                                                             | Motivo                      |
-| -------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------- |
-| `src/modules/health/application/application.module.ts`         | `src/modules/health/application/health-application.module.ts`         | Prefixo módulo para clarity |
-| `src/modules/health/application/use-cases/use-cases.module.ts` | `src/modules/health/application/use-cases/health-use-cases.module.ts` | Prefixo módulo para clarity |
+| Arquivo Atual                                      | Novo Nome                                                 | Motivo                      |
+| -------------------------------------------------- | --------------------------------------------------------- | --------------------------- |
+| `src/modules/health.module.ts`                     | `src/modules/health/health-application.module.ts`         | Prefixo módulo para clarity |
+| `src/modules/health/use-cases/use-cases.module.ts` | `src/modules/health/use-cases/health-use-cases.module.ts` | Prefixo módulo para clarity |
 
 **Status:** ❌ Não feito
 

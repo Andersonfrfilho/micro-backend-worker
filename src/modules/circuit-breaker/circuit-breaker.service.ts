@@ -1,9 +1,10 @@
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { LOGGER_PROVIDER } from '@adatechnology/logger';
+import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import CircuitBreaker from 'opossum';
 
 import type { LogProviderInterface } from '@app/modules/shared';
-import { CircuitBreakerMetricsService } from '../circuit-breaker.metrics.service';
+
+import { CircuitBreakerMetricsService } from './circuit-breaker.metrics.service';
 
 export interface CircuitBreakerOptions {
   timeout?: number; // milliseconds
@@ -218,7 +219,6 @@ export class CircuitBreakerService implements OnModuleInit {
    */
   resetAll(): void {
     for (const [name, breaker] of this.circuitBreakers) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (breaker as any).reset();
       this.logger.info({
         message: `Circuit breaker '${name}' reset`,

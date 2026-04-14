@@ -1,4 +1,4 @@
-import { AppErrorFactory } from '@modules/error/application/app.error.factory';
+import { AppErrorFactory } from '@modules/error/app.error.factory';
 
 export class QueueErrorFactory {
   static messageProcessingFailed(

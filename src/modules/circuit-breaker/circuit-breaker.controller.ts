@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 
-import { CircuitBreakerService } from '../application/circuit-breaker.service';
-import { ExternalApiService } from '../application/external-api.service';
 import { CircuitBreakerMetricsService } from './circuit-breaker.metrics.service';
+import { CircuitBreakerService } from './circuit-breaker.service';
+import { ExternalApiService } from './external-api.service';
 
 @Controller('circuit-breaker')
 export class CircuitBreakerController {

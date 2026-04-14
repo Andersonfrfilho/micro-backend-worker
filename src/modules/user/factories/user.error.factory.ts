@@ -1,4 +1,4 @@
-import { BaseErrorFactory } from '@modules/error/application/factories';
+import { BaseErrorFactory } from '@modules/error/factories';
 
 const USER_ERROR_CONFIGS = {
   duplicateEmail: (email: string) => ({

@@ -1,4 +1,4 @@
-import { BaseErrorFactory } from '@modules/error/application/factories';
+import { BaseErrorFactory } from '@modules/error/factories';
 
 export enum PhoneErrorCode {
   INVALID_FORMAT = 'INVALID_PHONE_FORMAT',

@@ -93,7 +93,7 @@ CORS_ORIGIN=http://localhost:3000,http://localhost:3001
 npm install csurf @fastify/csrf-protection
 ```
 
-**Arquivo:** `/src/modules/shared/infrastructure/middleware/csrf.middleware.ts`
+**Arquivo:** `/src/modules/shared/middleware/csrf.middleware.ts`
 
 ```typescript
 @Injectable()
@@ -186,7 +186,7 @@ consumer
 import * as DailyRotateFile from 'winston-daily-rotate-file';
 
 new DailyRotateFile({
-  filename: 'logs/application-%DATE%.log',
+  filename: 'logs-%DATE%.log',
   datePattern: 'YYYY-MM-DD',
   maxSize: '20m',
   maxFiles: '30d',
@@ -248,7 +248,7 @@ npm install bcrypt
    - Removido: CsrfMiddleware (desativado por enquanto)
    - Mantido: SecurityHeadersMiddleware
 
-✅ /src/modules/shared/infrastructure/middleware/csrf.middleware.ts
+✅ /src/modules/shared/middleware/csrf.middleware.ts
    - Criado: CSRF middleware com tokens por IP
    - Status: Pronto para ativação seletiva
 

@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 
-import { SharedInfrastructureProviderLogModule } from '@modules/shared/providers/log/log.module';
 import { RabbitMQLoggingInterceptor } from '@modules/shared/providers/queue/interceptors/rabbitmq-logging.interceptor';
 
 @Module({
-  imports: [SharedInfrastructureProviderLogModule],
+  imports: [],
   providers: [
     RabbitMQLoggingInterceptor,
     {

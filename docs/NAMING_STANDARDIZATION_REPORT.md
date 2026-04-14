@@ -37,7 +37,7 @@
 | ----------------------------------------------------------- | ------ | ------------------------------------------ |
 | `health.module.ts`                                          | ✅     | Correto                                    |
 | `domain/health.get.interface.ts`                            | ✅     | Correto                                    |
-| `application/application.module.ts`                         | ⚠️     | Deveria ser `health.application.module.ts` |
+| `application.module.ts`                                     | ⚠️     | Deveria ser `health.application.module.ts` |
 | `application/use-cases/use-cases.module.ts`                 | ⚠️     | Deveria ser `health.use-cases.module.ts`   |
 | `application/use-cases/health.get.use-case.ts`              | ✅     | Correto                                    |
 | `application/use-cases/health.get.use-case.unit.spec.ts`    | ✅     | Correto                                    |
@@ -51,7 +51,7 @@
 
 **Mudanças necessárias:**
 
-1. `application/application.module.ts` → `application/health-application.module.ts`
+1. `application.module.ts` → `application/health-application.module.ts`
 2. `application/use-cases/use-cases.module.ts` → `application/use-cases/health-use-cases.module.ts`
 
 ---
@@ -151,16 +151,16 @@
 
 ### **Total: 8 mudanças**
 
-| #   | Arquivo Atual                                      | Novo Nome                                                 | Módulo | Prioridade          |
-| --- | -------------------------------------------------- | --------------------------------------------------------- | ------ | ------------------- |
-| 1   | `error/AppError.ts`                                | `error/app.error.ts`                                      | ERROR  | 🔵 Média            |
-| 2   | `health/application/application.module.ts`         | `health/application/health-application.module.ts`         | HEALTH | 🔵 Média            |
-| 3   | `health/application/use-cases/use-cases.module.ts` | `health/application/use-cases/health-use-cases.module.ts` | HEALTH | 🔵 Média            |
-| 4   | `auth/auth.controller.ts` (raiz)                   | ❌ DELETAR                                                | AUTH   | 🔴 Alta (duplicado) |
-| 5   | `auth/exceptions.ts`                               | `auth/auth.exceptions.ts`                                 | AUTH   | 🔵 Média            |
-| 6   | `auth/shared/dtos/LoginSessionRequest.dto.ts`      | `auth/shared/dtos/login-session-request.dto.ts`           | AUTH   | 🔵 Média            |
-| 7   | `auth/shared/dtos/LoginSessionResponse.dto.ts`     | `auth/shared/dtos/login-session-response.dto.ts`          | AUTH   | 🔵 Média            |
-| 8   | `shared/entities/userTypes.entity.ts`              | `shared/entities/user-types.entity.ts`                    | SHARED | 🔵 Média            |
+| #   | Arquivo Atual                                  | Novo Nome                                        | Módulo | Prioridade          |
+| --- | ---------------------------------------------- | ------------------------------------------------ | ------ | ------------------- |
+| 1   | `error/AppError.ts`                            | `error/app.error.ts`                             | ERROR  | 🔵 Média            |
+| 2   | `health.module.ts`                             | `health/health-application.module.ts`            | HEALTH | 🔵 Média            |
+| 3   | `health/use-cases/use-cases.module.ts`         | `health/use-cases/health-use-cases.module.ts`    | HEALTH | 🔵 Média            |
+| 4   | `auth/auth.controller.ts` (raiz)               | ❌ DELETAR                                       | AUTH   | 🔴 Alta (duplicado) |
+| 5   | `auth/exceptions.ts`                           | `auth/auth.exceptions.ts`                        | AUTH   | 🔵 Média            |
+| 6   | `auth/shared/dtos/LoginSessionRequest.dto.ts`  | `auth/shared/dtos/login-session-request.dto.ts`  | AUTH   | 🔵 Média            |
+| 7   | `auth/shared/dtos/LoginSessionResponse.dto.ts` | `auth/shared/dtos/login-session-response.dto.ts` | AUTH   | 🔵 Média            |
+| 8   | `shared/entities/userTypes.entity.ts`          | `shared/entities/user-types.entity.ts`           | SHARED | 🔵 Média            |
 
 ---
 

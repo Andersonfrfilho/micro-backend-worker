@@ -7,7 +7,7 @@ import {
   DiskHealthIndicator,
 } from '@nestjs/terminus';
 
-import { CircuitBreakerHealthIndicator } from '../../circuit-breaker/circuit-breaker.health-indicator';
+import { CircuitBreakerHealthIndicator } from '../circuit-breaker/circuit-breaker.health-indicator';
 
 import { DatabaseHealthIndicator } from './health-indicators/database.health-indicator';
 import { RabbitMQHealthIndicator } from './health-indicators/rabbitmq.health-indicator';

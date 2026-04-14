@@ -1,5 +1,5 @@
-import { UserAddress } from '@modules/shared/domain/entities/user-address.entity';
-import { AddressTypeEnum } from '@modules/shared/domain/enums/address-type.enum';
+import { UserAddress } from '@modules/shared/entities/user-address.entity';
+import { AddressTypeEnum } from '@modules/shared/enums/address-type.enum';
 
 export interface CreateUserAddressParams {
   userId: string;

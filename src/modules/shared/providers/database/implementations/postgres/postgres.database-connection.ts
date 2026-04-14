@@ -1,9 +1,9 @@
 import { DataSource } from 'typeorm';
 
-import { Address } from '@app/modules/shared/domain/entities/address.entity';
-import { Phone } from '@app/modules/shared/domain/entities/phone.entity';
-import { UserAddress } from '@app/modules/shared/domain/entities/user-address.entity';
-import { User } from '@app/modules/shared/domain/entities/user.entity';
+import { Address } from '@app/modules/shared/entities/address.entity';
+import { Phone } from '@app/modules/shared/entities/phone.entity';
+import { UserAddress } from '@app/modules/shared/entities/user-address.entity';
+import { User } from '@app/modules/shared/entities/user.entity';
 import { getDatabaseConfig } from '@config/database-config';
 
 import { migrations } from '../../migrations/index';

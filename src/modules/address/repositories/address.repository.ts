@@ -2,14 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { AddressErrorFactory } from '@modules/address/application/factories/address.error.factory';
-import type {
-  AddressRepositoryInterface,
-  CreateAddressParams,
-  UpdateAddressParams,
-} from '@modules/address/repositories/address.repository.interface';
+import { AddressErrorFactory } from '@modules/address/factories/address.error.factory';
 import { Address } from '@modules/shared/entities/address.entity';
 import { CONNECTIONS_NAMES } from '@modules/shared/providers/database/database.constant';
+
+import { AddressRepositoryInterface, CreateAddressParams } from './address.repository.interface';
+import { AddressRepositoryUpdateParams } from './address.types';
 
 @Injectable()
 export class AddressRepository implements AddressRepositoryInterface {
@@ -44,7 +42,7 @@ export class AddressRepository implements AddressRepositoryInterface {
     });
   }
 
-  async update({ id, address }: { id: string; address: UpdateAddressParams }): Promise<Address> {
+  async update({ id, address }: AddressRepositoryUpdateParams): Promise<Address> {
     await this.typeormRepo.update(id, address);
     const updated = await this.typeormRepo.findOne({
       where: { id },

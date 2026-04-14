@@ -1,5 +1,5 @@
-import { Address } from '@app/modules/shared/domain/entities/address.entity';
-import { User } from '@app/modules/shared/domain/entities/user.entity';
+import { Address } from '@app/modules/shared/entities/address.entity';
+import { User } from '@app/modules/shared/entities/user.entity';
 
 interface AddressDto
   extends Omit<Address, 'id' | 'active' | 'createdAt' | 'updatedAt' | 'deletedAt'> {}

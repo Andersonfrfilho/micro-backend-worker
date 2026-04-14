@@ -1,4 +1,4 @@
-import { PhoneErrorFactory } from '@modules/phone/application/factories/phone.error.factory';
+import { PhoneErrorFactory } from '@modules/phone/factories/phone.error.factory';
 import {
   PHONE_AREA_END,
   PHONE_AREA_START,
@@ -6,8 +6,8 @@ import {
   PHONE_COUNTRY_START,
   PHONE_NUMBER_START,
   PHONE_TOTAL_LENGTH,
-} from '@modules/user/application/constants/phone.constant';
-import type { ParsedPhone } from '@modules/user/application/interfaces/phone.interface';
+} from '@modules/user/constants/phone.constant';
+import type { ParsedPhone } from '@modules/user/interfaces/phone.interface';
 
 export const parsePhone = (phone: string): ParsedPhone => {
   const clean = phone.replace(/\D/g, '');

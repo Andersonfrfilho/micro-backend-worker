@@ -1,4 +1,4 @@
-import { BaseErrorFactory } from '@modules/error/application/factories';
+import { BaseErrorFactory } from '@modules/error/factories';
 
 export enum UserAddressErrorCode {
   NOT_FOUND = 'USER_ADDRESS_NOT_FOUND',

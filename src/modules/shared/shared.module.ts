@@ -1,9 +1,7 @@
 import { Module } from '@nestjs/common';
 
-import { SharedInfrastructureModule } from '..module';
-
 @Module({
-  imports: [SharedInfrastructureModule],
-  exports: [SharedInfrastructureModule],
+  imports: [],
+  exports: [],
 })
 export class SharedModule {}

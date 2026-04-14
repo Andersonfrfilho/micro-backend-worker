@@ -1,5 +1,5 @@
-import { BaseErrorFactory } from '@modules/error/application/factories/base.error.factory';
-import { CONFIG_ERROR_CONFIGS } from '@modules/error/domain/configs';
+import { BaseErrorFactory } from '@modules/error/factories/base.error.factory';
+import { CONFIG_ERROR_CONFIGS } from '@modules/error/configs';
 
 export class ConfigErrorFactory extends BaseErrorFactory {
   static invalidConfiguration(details?: string) {

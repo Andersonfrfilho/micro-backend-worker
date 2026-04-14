@@ -13,7 +13,7 @@ import { AddressModule } from '../address/address.module';
 import { PhoneModule } from '../phone/phone.module';
 import { CONNECTIONS_NAMES } from '../shared/providers/database/database.constant';
 
-import { UserApplicationCreateUseCase } from './application/use-cases/create-user.use-case';
+import { UserApplicationCreateUseCase } from './use-cases/create-user.use-case';
 
 @Module({
   imports: [

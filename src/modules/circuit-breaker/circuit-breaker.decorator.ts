@@ -1,6 +1,6 @@
 import { SetMetadata } from '@nestjs/common';
 
-import { CircuitBreakerOptions } from '../application/circuit-breaker.service';
+import { CircuitBreakerOptions } from './circuit-breaker.interceptor';
 
 export const CIRCUIT_BREAKER_KEY = 'circuitBreaker';
 

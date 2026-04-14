@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { UserAddress } from '@modules/shared/domain/entities/user-address.entity';
+import { UserAddress } from '@modules/shared/entities/user-address.entity';
 
 @Injectable()
 export class UserAddressRepository {

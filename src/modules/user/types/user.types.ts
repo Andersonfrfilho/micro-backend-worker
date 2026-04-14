@@ -1,4 +1,4 @@
-import { User } from '@app/modules/shared/domain/entities/user.entity';
+import { User } from '@app/modules/shared/entities/user.entity';
 
 export interface CreateUserParams extends Partial<User> {}
 

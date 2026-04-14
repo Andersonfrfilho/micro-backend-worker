@@ -1,4 +1,4 @@
-import type { LogLevel } from '@modules/shared/domain/enums/log.enum';
+import type { LogLevel } from '@modules/shared/enums/log.enum';
 
 export interface LogBaseParams {
   message: string;

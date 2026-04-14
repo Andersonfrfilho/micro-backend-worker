@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { HealthIndicator, HealthIndicatorResult } from '@nestjs/terminus';
 
-import { CircuitBreakerService, CircuitBreakerStats } from '../application/circuit-breaker.service';
+import { CircuitBreakerService } from './circuit-breaker.service';
 
 @Injectable()
 export class CircuitBreakerHealthIndicator extends HealthIndicator {

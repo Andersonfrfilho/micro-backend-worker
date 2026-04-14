@@ -14,7 +14,7 @@
 **Status:** ✅ **IMPLEMENTADO COMPLETAMENTE**
 
 ```typescript
-// Arquivo: /src/modules/shared/infrastructure/middleware/security-headers.middleware.ts
+// Arquivo: /src/modules/shared/middleware/security-headers.middleware.ts
 // 6 Headers OWASP:
 - X-Content-Type-Options: nosniff
 - X-Frame-Options: DENY
@@ -36,10 +36,10 @@ consumer.apply(SecurityHeadersMiddleware).forRoutes('*');
 
 ```typescript
 // Arquivos:
-- /src/modules/auth/infrastructure/guards/jwt-auth.guard.ts
-- /src/modules/auth/infrastructure/guards/roles.guard.ts
-- /src/modules/auth/infrastructure/decorators/roles.decorator.ts
-- /src/modules/auth/infrastructure/strategies/mock-jwt.strategy.ts
+- /src/modules/auth/guards/jwt-auth.guard.ts
+- /src/modules/auth/guards/roles.guard.ts
+- /src/modules/auth/decorators/roles.decorator.ts
+- /src/modules/auth/strategies/mock-jwt.strategy.ts
 
 // Funcionalidades:
 ✅ Bearer token validation
@@ -56,7 +56,7 @@ consumer.apply(SecurityHeadersMiddleware).forRoutes('*');
 **Status:** ✅ **IMPLEMENTADO COMPLETAMENTE**
 
 ```typescript
-// Arquivo: /src/modules/shared/infrastructure/interceptors/rate-limit.interceptor.ts
+// Arquivo: /src/modules/shared/interceptors/rate-limit.interceptor.ts
 
 // Implementado:
 ✅ 5 tentativas por 15 minutos (900000ms)
@@ -104,7 +104,7 @@ app.useGlobalPipes(
 **Status:** ⚠️ **IMPLEMENTADO - MAS FALTA DAILYROTATEFILE**
 
 ```typescript
-// Arquivo: /src/modules/shared/infrastructure/providers/log/implementations/winston/winston.log.module.ts
+// Arquivo: /src/modules/shared/providers/log/implementations/winston/winston.log.module.ts
 
 // Implementado:
 ✅ WinstonModule.forRoot() configurado
@@ -139,7 +139,7 @@ new winston.transports.File({
 import * as DailyRotateFile from 'winston-daily-rotate-file';
 
 new DailyRotateFile({
-  filename: 'logs/application-%DATE%.log',
+  filename: 'logs-%DATE%.log',
   datePattern: 'YYYY-MM-DD',
   maxSize: '20m',
   maxFiles: '30d',
@@ -281,7 +281,7 @@ CORS_ORIGIN=http://localhost:3000,http://localhost:3001
 npm install csurf cookie-parser
 
 # Falta criar middleware:
-# /src/modules/shared/infrastructure/middleware/csrf.middleware.ts
+# /src/modules/shared/middleware/csrf.middleware.ts
 
 # Falta registrar em app.module.ts
 ```
@@ -312,7 +312,7 @@ Se implementar persistência de usuários, adicionar bcrypt.
 
 ```typescript
 // Falta criar:
-// /src/modules/shared/infrastructure/interceptors/audit.interceptor.ts
+// /src/modules/shared/interceptors/audit.interceptor.ts
 
 // Falta registrar em app.module.ts como global interceptor
 ```

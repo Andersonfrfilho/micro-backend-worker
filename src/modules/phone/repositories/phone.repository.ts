@@ -8,7 +8,7 @@ import type {
 } from '@modules/phone/repositories/phone.repository.interface';
 import { Phone } from '@modules/shared/entities/phone.entity';
 import { CONNECTIONS_NAMES } from '@modules/shared/providers/database/database.constant';
-import { AppErrorFactory } from '@modules/error/application/app.error.factory';
+import { AppErrorFactory } from '@modules/error/app.error.factory';
 
 @Injectable()
 export class PhoneRepository implements PhoneRepositoryInterface {

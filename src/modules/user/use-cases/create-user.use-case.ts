@@ -7,18 +7,18 @@ import { PHONE_REPOSITORY_PROVIDE } from '@app/modules/phone/phone.token';
 import { AddressTypeEnum } from '@app/modules/shared';
 import type { QueueProducerMessageProviderInterface } from '@modules/shared/providers/queue/producer/producer.interface';
 import { QUEUE_PRODUCER_PROVIDER } from '@modules/shared/providers/queue/producer/producer.token';
-import { USER_ADDRESS_REPOSITORY_PROVIDE } from '@modules/shared/user-address.token';
-import { USER_REPOSITORY_PROVIDE } from '@modules/shared/user.token';
-import { UserErrorFactory } from '@modules/user/application/factories';
+import { UserErrorFactory } from '@modules/user/factories';
 import type { UserRepositoryInterface } from '@modules/user/repositories/user.repository.interface';
 
-import type { UserAddressRepositoryInterface } from '../../repositories/user-address.repository.interface';
 import type {
   UserCreateUseCaseInterface,
   UserCreateUseCaseParams,
   UserCreateUseCaseResponse,
 } from '../interfaces/create-user.interface';
 import { parsePhone } from '../util/phone.util';
+import { USER_REPOSITORY_PROVIDE } from '@app/modules/shared/user.token';
+import { USER_ADDRESS_REPOSITORY_PROVIDE } from '@app/modules/shared/user-address.token';
+import type { UserAddressRepositoryInterface } from '../repositories/user-address.repository.interface';
 
 @Injectable()
 export class UserApplicationCreateUseCase implements UserCreateUseCaseInterface {

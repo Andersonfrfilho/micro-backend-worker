@@ -1,3 +1,4 @@
+import { LoggerModule } from '@adatechnology/logger';
 import { Module } from '@nestjs/common';
 import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 import { register as tsConfigPathsRegister } from 'tsconfig-paths';
@@ -18,6 +19,9 @@ tsConfigPathsRegister({
 @Module({
   imports: [
     ConfigModule,
+    LoggerModule.forRoot({
+      level: process.env.LOG_LEVEL || 'info',
+    }),
     SharedModule,
     CircuitBreakerModule,
     PrometheusModule.register({

@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import { ConfigErrorFactory } from '@modules/error/application/factories';
+import { ConfigErrorFactory } from '@app/modules/error/factories';
 
 import envValidationSchema from './env.validation';
 import { DatabaseConfigs } from './types';

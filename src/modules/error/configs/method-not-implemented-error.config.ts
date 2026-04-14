@@ -1,5 +1,5 @@
-import type { BusinessLogicErrorConfig } from '@modules/error/domain/configs/error-config.interface';
-import { MethodNotImplementedErrorCode } from '@modules/error/domain/error-codes';
+import type { BusinessLogicErrorConfig } from '@modules/error/configs/error-config.interface';
+import { MethodNotImplementedErrorCode } from '@modules/error/error-codes';
 
 export const METHOD_NOT_IMPLEMENTED_ERROR_CONFIGS = {
   methodNotImplemented: (methodName?: string): BusinessLogicErrorConfig => ({

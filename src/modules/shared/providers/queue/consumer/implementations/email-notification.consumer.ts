@@ -1,10 +1,10 @@
+import { LOGGER_PROVIDER } from '@adatechnology/logger';
 import { RabbitSubscribe } from '@golevelup/nestjs-rabbitmq';
-import { Controller, Inject, Injectable, Logger, UsePipes } from '@nestjs/common';
+import { Controller, Inject, Injectable, UsePipes } from '@nestjs/common';
 import { AsyncApiSub } from 'nestjs-asyncapi';
 
 import type { LogProviderInterface } from '@modules/shared';
 import { QUEUE_NAMES, EXCHANGE_NAMES, ROUTING_KEYS, CONSUMER_IDS } from '@modules/shared/constants';
-import { LOG_PROVIDER } from '@modules/shared/providers/log/log.token';
 
 import {
   RABBITMQ_MESSAGES_PROCESSED_PROVIDER,
@@ -27,7 +27,7 @@ export class EmailNotificationConsumer
   implements MessageConsumerInterface<EmailNotificationMessage>
 {
   constructor(
-    @Inject(LOG_PROVIDER) private readonly logger: LogProviderInterface,
+    @Inject(LOGGER_PROVIDER) private readonly logger: LogProviderInterface,
     @Inject(RABBITMQ_MESSAGES_PROCESSED_PROVIDER)
     private readonly messagesProcessedProvider: RabbitMQMessagesProcessedProvider,
     @Inject(RABBITMQ_MESSAGE_PROCESSING_DURATION_PROVIDER)

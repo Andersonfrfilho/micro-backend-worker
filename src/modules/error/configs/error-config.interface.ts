@@ -1,4 +1,4 @@
-import type { ErrorCode } from '@modules/error/domain/error-codes';
+import type { ErrorCode } from '@modules/error/error-codes';
 
 export interface ErrorConfig {
   message: string;

@@ -1,9 +1,10 @@
-import { Inject, Injectable } from '@nestjs/common';
 import { LOGGER_PROVIDER } from '@adatechnology/logger';
+import { Inject, Injectable } from '@nestjs/common';
 
-import type { LogProviderInterface } from '@app/modules/shared/domain';
-import { CircuitBreakerService } from '../../circuit-breaker/application/circuit-breaker.service';
-import { CircuitBreaker } from '../../circuit-breaker/domain/circuit-breaker.decorator';
+import type { LogProviderInterface } from '@app/modules/shared';
+
+import { CircuitBreaker } from './circuit-breaker.decorator';
+import { CircuitBreakerService } from './circuit-breaker.service';
 
 @Injectable()
 export class ExternalApiService {
@@ -35,7 +36,10 @@ export class ExternalApiService {
         resetTimeout: 10000,
       },
       async () => {
-        this.logger.warn({ message: 'External API circuit breaker fallback triggered', context: 'ExternalApiService' });
+        this.logger.warn({
+          message: 'External API circuit breaker fallback triggered',
+          context: 'ExternalApiService',
+        });
         return { status: 'fallback', message: 'Service temporarily unavailable' };
       },
     );

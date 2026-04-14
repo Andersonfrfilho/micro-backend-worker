@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import { EnvironmentProviderInterface } from '@config/domain/interfaces/environment.interface';
+import { EnvironmentProviderInterface } from '../interfaces/environment.interface';
 
 @Injectable()
 export class EnvironmentProvider implements EnvironmentProviderInterface {

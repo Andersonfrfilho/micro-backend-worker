@@ -364,7 +364,7 @@ export const winstonConfig = {
   transports: [
     new transports.Console(),
     new DailyRotateFile({
-      filename: 'logs/application-%DATE%.log',
+      filename: 'logs-%DATE%.log',
       datePattern: 'YYYY-MM-DD',
       maxSize: '20m',
       maxFiles: '30d',

@@ -1,7 +1,7 @@
 import { HttpStatus } from '@nestjs/common';
 
-import { AppError, ErrorType } from '@modules/error/domain/app.error';
-import type { BusinessLogicErrorConfig } from '@modules/error/domain/configs';
+import { AppError, ErrorType } from '@modules/error/app.error';
+import type { BusinessLogicErrorConfig } from '@modules/error/configs';
 
 export class AppErrorFactory {
   static businessLogic(config: BusinessLogicErrorConfig): AppError {

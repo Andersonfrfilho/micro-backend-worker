@@ -1,12 +1,12 @@
+import { LOGGER_PROVIDER } from '@adatechnology/logger';
 import { CallHandler, ExecutionContext, Inject, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable, tap, catchError } from 'rxjs';
 
 import type { LogProviderInterface } from '@modules/shared';
-import { LOG_PROVIDER } from '@modules/shared/providers/log/log.token';
 
 @Injectable()
 export class RabbitMQLoggingInterceptor implements NestInterceptor {
-  constructor(@Inject(LOG_PROVIDER) private readonly logProvider: LogProviderInterface) {}
+  constructor(@Inject(LOGGER_PROVIDER) private readonly logProvider: LogProviderInterface) {}
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const handler = context.getHandler();

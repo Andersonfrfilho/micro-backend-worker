@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CircuitBreakerHealthIndicator } from './circuit-breaker.health-indicator';
-import { CircuitBreakerService } from '../application/circuit-breaker.service';
+import { CircuitBreakerService } from '../circuit-breaker.service';
 
 describe('CircuitBreakerHealthIndicator', () => {
   let service: CircuitBreakerHealthIndicator;
